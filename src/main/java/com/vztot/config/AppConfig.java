@@ -22,7 +22,7 @@ public class AppConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/spring_intro?serverTimezone=Europe/Kiev");
         dataSource.setUsername("root");
-        dataSource.setPassword("2164092");
+        dataSource.setPassword("https://www.youtube.com/watch?v=Ll3iyvbsRDM");
         return dataSource;
     }
 
