@@ -1,8 +1,8 @@
 package com.vztot.controller;
 
-import com.vztot.UserResponseDto;
-import com.vztot.dao.UserDao;
+import com.vztot.dto.UserResponseDto;
 import com.vztot.model.User;
+import com.vztot.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserDao userDao;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserDao userDao) {
-        this.userDao = userDao;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/inject")
     public void inject() {
-        userDao.add(new User("jack@gmail.com", "john_is_sucker"));
-        userDao.add(new User("john@gmail.com", "jack_is_sucker"));
-        userDao.add(new User("mary@gmail.com", "love_jack"));
-        userDao.add(new User("amily@gmail.com", "love_john"));
+        userService.add(new User("jack@gmail.com", "john_is_sucker"));
+        userService.add(new User("john@gmail.com", "jack_is_sucker"));
+        userService.add(new User("mary@gmail.com", "love_jack"));
+        userService.add(new User("amily@gmail.com", "love_john"));
     }
 
     @GetMapping("/")
     public List<UserResponseDto> getAll() {
-        return userDao.listUsers().stream()
-                .map(UserResponseDto::new)
+        return userService.listUsers().stream()
+                .map(this::buildUserDto)
                 .collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
     public UserResponseDto get(@PathVariable Long userId) {
-        return new UserResponseDto(userDao.getUser(userId));
+        return buildUserDto(userService.getUser(userId));
+    }
+
+    private UserResponseDto buildUserDto(User user) {
+        return new UserResponseDto(user);
     }
 }

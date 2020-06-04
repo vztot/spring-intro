@@ -1,4 +1,4 @@
-package com.vztot;
+package com.vztot.dto;
 
 import com.vztot.model.User;
 import lombok.Data;
