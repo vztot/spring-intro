@@ -3,7 +3,10 @@ package com.vztot.dao.impl;
 import com.vztot.dao.UserDao;
 import com.vztot.model.User;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,6 +41,19 @@ public class UserDaoImpl implements UserDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+            Root<User> root = query.from(User.class);
+            Predicate predicate = criteriaBuilder.equal(root.get("id"), userId);
+            return session.createQuery(query.where(predicate)).uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Cant find user by id: " + userId, e);
         }
     }
 
