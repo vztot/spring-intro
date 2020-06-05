@@ -43,6 +43,10 @@ public class UserController {
     }
 
     private UserResponseDto buildUserDto(User user) {
-        return new UserResponseDto(user);
+        UserResponseDto dto = new UserResponseDto();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setPassword(user.getPassword());
+        return dto;
     }
 }
