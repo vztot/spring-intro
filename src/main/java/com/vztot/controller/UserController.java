@@ -37,7 +37,6 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-
     @GetMapping("/{userId}")
     public UserResponseDto get(@PathVariable Long userId) {
         return buildUserDto(userService.getUserById(userId));
