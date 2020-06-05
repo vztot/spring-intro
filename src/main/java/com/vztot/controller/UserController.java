@@ -30,7 +30,7 @@ public class UserController {
         userService.add(new User("amily@gmail.com", "love_john"));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<UserResponseDto> getAll() {
         return userService.listUsers().stream()
                 .map(this::buildUserDto)
