@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,9 +37,10 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
+
+    @GetMapping("/{userId}")
     public UserResponseDto get(@PathVariable Long userId) {
-        return buildUserDto(userService.getUser(userId));
+        return buildUserDto(userService.getUserById(userId));
     }
 
     private UserResponseDto buildUserDto(User user) {
